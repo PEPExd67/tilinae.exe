@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Te amo</title>
+  <style>
+    :root {
+      --bg-color: #0d0d12;
+      --card-bg: #161622;
+      --accent-color: #ff4b72;
+      --text-color: #f3f3f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(255, 75, 114, 0.15);
+      border: 1px solid rgba(255, 75, 114, 0.2);
+      text-align: center;
+    }
+
+    /* Galería de 3 fotos */
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .photo-card {
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 75, 114, 0.3);
+      background-color: #202030;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-card:hover {
+      transform: scale(1.04);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Botón */
+    .btn-show {
+      background: linear-gradient(135deg, #ff4b72, #ff7597);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 75, 114, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .btn-show:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 75, 114, 0.6);
+    }
+
+    .btn-show:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Contenedor de lista */
+    .love-box {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #09090e;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: none;
+      scroll-behavior: smooth;
+    }
+
+    /* Animación de cada mensaje */
+    .love-item {
+      color: #ff85a1;
+      padding: 4px 0;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: popIn 0.3s ease forwards;
+    }
+
+    @keyframes popIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scrollbar */
+    .love-box::-webkit-scrollbar {
+      width: 6px;
+    }
+    .love-box::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- GALERÍA DE 3 FOTOS -->
+    <div class="photo-gallery">
+      <div class="photo-card">
+        <img src="tilinaexe.PNG" alt="Foto 1">
+      </div>
+      <div class="photo-card">
+        <img src="tilinaexe2.PNG" alt="Foto 2">
+      </div>
+      <div class="photo-card">
+        <img src="tilinaexe3.PNG" alt="Foto 3">
+      </div>
+    </div>
+
+    <button id="btn" class="btn-show" onclick="generarTeAmos()">Ver 10,000 Te Amo ❤️</button>
+
+    <div id="loveBox" class="love-box"></div>
+  </div>
+
+  <script>
+    function generarTeAmos() {
+      const box = document.getElementById('loveBox');
+      const btn = document.getElementById('btn');
+      
+      btn.disabled = true;
+      box.style.display = 'block';
+
+      let count = 1;
+      const total = 10000;
+
+      // Genera bloques a velocidad constante pero fluida con animación
+      const interval = setInterval(() => {
+        const fragment = document.createDocumentFragment();
+        const limit = Math.min(count + 5, total + 1);
+
+        for (let i = count; i < limit; i++) {
+          const div = document.createElement('div');
+          div.className = 'love-item';
+          div.innerHTML = `${i}. Te amo ❤️`;
+          fragment.appendChild(div);
+        }
+
+        box.appendChild(fragment);
+        box.scrollTop = box.scrollHeight; // Desplazamiento automático
+        
+        count = limit;
+
+        if (count > total) {
+          clearInterval(interval);
+        }
+      }, 40); // 40ms logra ese balance exacto entre ritmo y fluidez
+    }
+  </script>
+
+</body>
+</html>
